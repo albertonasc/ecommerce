@@ -42,4 +42,17 @@ public class UserService {
         System.out.println(userId);
         return userRepository.findById(userId);
     }
+
+    public boolean deleteById(UUID userId) {
+
+        var user = userRepository.findById(userId);
+
+        if(user.isPresent()) {
+
+            userRepository.deleteById(userId);
+            billingAddressRepository.deleteById(user.get().getBillingAddress().getBillingAddressId());
+        }
+
+        return user.isPresent();
+    }
 }
