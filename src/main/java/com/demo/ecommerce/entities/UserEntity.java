@@ -16,7 +16,7 @@ public class UserEntity {
     @Column(name = "full_name")
     private String fullName;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "billing_address_id")
     private BillingAddressEntity billingAddress;
 

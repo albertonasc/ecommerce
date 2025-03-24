@@ -7,6 +7,9 @@ import com.demo.ecommerce.repository.BillingAddressRepository;
 import com.demo.ecommerce.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class UserService {
 
@@ -34,4 +37,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public Optional<UserEntity> findById(UUID userId) {
+
+        System.out.println(userId);
+        return userRepository.findById(userId);
+    }
 }
