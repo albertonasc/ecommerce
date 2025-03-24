@@ -28,11 +28,9 @@ public class UserService {
         billingAddress.setNumber(dto.number());
         billingAddress.setComplement(dto.complement());
 
-        var savedBillingAddress = billingAddressRepository.save(billingAddress);
-
         var user = new UserEntity();
         user.setFullName(dto.fullName());
-        user.setBillingAddress(savedBillingAddress);
+        user.setBillingAddress(billingAddress);
 
         return userRepository.save(user);
     }
@@ -48,9 +46,7 @@ public class UserService {
         var user = userRepository.findById(userId);
 
         if(user.isPresent()) {
-
             userRepository.deleteById(userId);
-            billingAddressRepository.deleteById(user.get().getBillingAddress().getBillingAddressId());
         }
 
         return user.isPresent();
