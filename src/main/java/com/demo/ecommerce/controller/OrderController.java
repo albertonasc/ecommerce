@@ -1,9 +1,6 @@
 package com.demo.ecommerce.controller;
 
-import com.demo.ecommerce.controller.dto.ApiResponse;
-import com.demo.ecommerce.controller.dto.CreateOrderDto;
-import com.demo.ecommerce.controller.dto.OrderSummaryDto;
-import com.demo.ecommerce.controller.dto.PaginationResponseDto;
+import com.demo.ecommerce.controller.dto.*;
 import com.demo.ecommerce.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,4 +41,13 @@ public class OrderController {
         );
     }
 
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderResponseDto> finndById(@PathVariable("orderId") Long orderId) {
+
+        var order = orderService.findById(orderId);
+
+        return order.isPresent() ?
+                ResponseEntity.ok(OrderResponseDto.fromEntity(order.get())) :
+                ResponseEntity.notFound().build();
+    }
 }
