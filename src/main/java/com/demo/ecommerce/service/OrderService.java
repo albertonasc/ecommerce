@@ -2,12 +2,15 @@ package com.demo.ecommerce.service;
 
 import com.demo.ecommerce.controller.dto.CreateOrderDto;
 import com.demo.ecommerce.controller.dto.OrderItemDto;
+import com.demo.ecommerce.controller.dto.OrderSummaryDto;
 import com.demo.ecommerce.entities.*;
 import com.demo.ecommerce.exception.CreateOrderException;
 import com.demo.ecommerce.repository.OrderRepository;
 import com.demo.ecommerce.repository.OrderItemRepository;
 import com.demo.ecommerce.repository.ProductRepository;
 import com.demo.ecommerce.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -96,4 +99,13 @@ public class OrderService {
                 .orElse(BigDecimal.ZERO);
     }
 
+    public Page<OrderSummaryDto> findAll(Integer page, Integer pageSize) {
+        return orderRepository.findAll(PageRequest.of(page, pageSize))
+                .map(entity -> new OrderSummaryDto(
+                        entity.getOrderId(),
+                        entity.getOrderDate(),
+                        entity.getUser().getUserId(),
+                        entity.getTotal()
+                ));
+    }
 }
